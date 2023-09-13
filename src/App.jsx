@@ -1,0 +1,54 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthLayout from "./layout/AuthLayout";
+import RutaProtegida from "./layout/RutaProtegida";
+
+import Login from "./paginas/Login";
+import  Registrar  from "./paginas/Registrar";
+import OlvidePassword from "./paginas/OlvidePassword";
+import ConfirmarCuenta from "./paginas/ConfirmarCuenta";
+import  NuevoPassword from "./paginas/NuevoPassword";
+import AdministrarPacientes from "./paginas/AdministrarPacientes";
+import EditarPerfil from "./paginas/EditarPerfil";
+import CambiarPassword from "./paginas/CambiarPassword";
+
+import { AuthProvider } from "./context/AuthProvider";
+import { PacientesProvider } from "./context/PacientesProvider";
+
+function App() {
+
+  return (
+  <BrowserRouter>
+    <AuthProvider>
+      <PacientesProvider>
+          <Routes>
+            {/* esta onda hace que al abrir la pg principal yo pueda decirle que componente quiero ver */}
+            <Route path="/" element={<AuthLayout/>}>
+              <Route index element={< Login/>} />
+              <Route path="registrar" element= {<Registrar/>}/>
+              <Route path="olvide-password" element= {<OlvidePassword/>}/>
+              <Route path="olvide-password/:token" element= {<NuevoPassword/>}/>
+              <Route path="confirmar/:token" element= {<ConfirmarCuenta/>}/>
+            </Route>
+
+            <Route path="/admin" element={<RutaProtegida />}>  
+              <Route index element={<AdministrarPacientes />} />
+              <Route path="perfil"  element={<EditarPerfil />} />
+              <Route path="cambiar-password"  element={<CambiarPassword />} />
+            </Route>
+
+          </Routes>
+      </PacientesProvider>
+    </AuthProvider>
+  </BrowserRouter>
+  )
+}
+
+export default App
+
+
+/*
+  que fue lo que me instale:
+  npm i --save-dev tailwindcss postcss autoprefixer      
+  npx tailwindcss init -p
+  npm i react-router-dom
+*/
